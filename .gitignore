@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+venv/
+.env
+.venv
+
+# Airflow
+airflow/logs/
+airflow/plugins/
+*.sqlite
+airflow.db
+
+# dbt
+dbt/electricity_forecast/target/
+dbt/electricity_forecast/dbt_packages/
+dbt/electricity_forecast/logs/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# OS
+.DS_Store
+*.swp
+
+# Credentials (NEVER COMMIT)
+profiles.yml
+secrets.yaml
+.env.local
+
+# IDE
+.vscode/
+.idea/
+

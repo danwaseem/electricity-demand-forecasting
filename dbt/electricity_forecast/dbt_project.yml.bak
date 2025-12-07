@@ -1,0 +1,28 @@
+name: 'electricity_forecast'
+version: '1.0.0'
+config-version: 2
+profile: 'electricity_forecast'
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+test-paths: ["tests"]
+data-paths: ["data"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  electricity_forecast:
+    staging:
+      +materialized: view
+      +schema: ELECTRICITY_STAGING
+    marts:
+      +materialized: table
+      +schema: ELECTRICITY_ANALYTICS
+
+snapshots:
+  electricity_forecast:
+    +schema: ELECTRICITY_STAGING

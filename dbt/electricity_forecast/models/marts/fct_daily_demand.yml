@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: fct_daily_demand
+    description: "Daily aggregated electricity demand per respondent."
+    columns:
+      - name: period_date
+        tests:
+          - not_null
+      - name: respondent
+        tests:
+          - not_null
+      - name: avg_demand_mw
+        tests:
+          - not_null
