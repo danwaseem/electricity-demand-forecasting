@@ -319,9 +319,8 @@ dbt run --profiles-dir /opt/airflow/dbt
 ## 📧 Support
 
 For questions or issues:
-- Check `GETTING_STARTED.md` for detailed walkthrough
 - Review Airflow logs in UI
-- Contact: [your-email@sjsu.edu]
+- Contact: [danish.waseem@sjsu.edu]
 
 ---
 **Last Updated**: December 6, 2025  

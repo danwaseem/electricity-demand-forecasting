@@ -1,0 +1,15 @@
+electricity_forecast:
+  outputs:
+    dev:
+      type: "{{ env_var('DBT_TYPE', 'snowflake') }}"
+      account: "{{ env_var('DBT_ACCOUNT', 'sfedu02-lvb17920') }}"
+      user: "{{ env_var('DBT_USER', 'HEDGEHOG') }}"
+      password: "{{ env_var('DBT_PASSWORD') }}"
+      warehouse: "{{ env_var('DBT_WAREHOUSE', 'HEDGEHOG_QUERY_WH') }}"
+      database: "{{ env_var('DBT_DATABASE', 'USER_DB_HEDGEHOG') }}"
+      schema: "{{ env_var('DBT_SCHEMA', 'ELECTRICITY_ANALYTICS') }}"
+      role: "{{ env_var('DBT_ROLE', 'TRAINING_ROLE') }}"
+      threads: 4
+      client_session_keep_alive: False
+
+  target: dev

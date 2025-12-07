@@ -2,20 +2,33 @@
 __pycache__/
 *.py[cod]
 *.egg-info/
+*.egg
 venv/
-.env
+env/
 .venv
+*.pyc
+dist/
+build/
+
+# Environment Variables (NEVER COMMIT)
+.env
+.env.local
+.env.*.local
 
 # Airflow
 airflow/logs/
-airflow/plugins/
+airflow/plugins/__pycache__/
 *.sqlite
 airflow.db
+airflow.cfg
+webserver_config.py
+standalone_admin_password.txt
 
 # dbt
 dbt/electricity_forecast/target/
 dbt/electricity_forecast/dbt_packages/
 dbt/electricity_forecast/logs/
+dbt/.user.yml
 
 # Jupyter
 .ipynb_checkpoints/
@@ -24,13 +37,35 @@ dbt/electricity_forecast/logs/
 # OS
 .DS_Store
 *.swp
-
-# Credentials (NEVER COMMIT)
-profiles.yml
-secrets.yaml
-.env.local
+*.swo
+*~
+Thumbs.db
 
 # IDE
 .vscode/
 .idea/
+*.sublime-project
+*.sublime-workspace
 
+# Logs
+*.log
+logs/
+*.out
+
+# Database
+*.db
+*.sqlite3
+
+# Secrets (NEVER COMMIT)
+secrets.yaml
+secrets.yml
+credentials.json
+service-account.json
+
+# Docker volumes
+postgres-db-volume/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
