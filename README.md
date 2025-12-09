@@ -6,8 +6,9 @@
 ## 🎯 Project Overview
 
 Complete data engineering solution that:
-- Fetches hourly electricity demand data from EIA API (6 US regions: US48, CISO, TEXA, MISO, NYISO, PJM)
-- Processes ~200,000 records per run using Apache Airflow
+- Fetches hourly electricity demand data from EIA API (4 US regions: US48, CISO, MISO, PJM)
+- Processes ~670 records per hourly run (7 days × 24 hours × 4 regions)
+- Accumulates 200k+ historical records in Snowflake data warehouse
 - Transforms data using dbt into analytics-ready dimensional model
 - Generates 7-day forecasts using Snowflake ML FORECAST
 - Ready for Tableau visualization
@@ -158,7 +159,7 @@ sjsu-data226-electricity-forecast/
 
 ### ELECTRICITY_ANALYTICS (Transformed Data)
 - `STG_EIA_HOURLY_DEMAND`: Staging view (cleaned data)
-- `DIM_REGION`: Region dimension (6 regions)
+- `DIM_REGION`: Region dimension (4 regions: US48, CISO, MISO, PJM)
 - `DIM_DATE`: Date dimension (4 years: 2023-2026)
 - `FCT_HOURLY_DEMAND`: Fact table (hourly demand by region)
 - `ANALYTICS_DEMAND_SUMMARY`: Pre-aggregated metrics for Tableau
@@ -223,7 +224,7 @@ SELECT COUNT(*) FROM USER_DB_HEDGEHOG.ELECTRICITY_RAW.EIA_HOURLY_DEMAND;
 
 -- Analytics data
 SELECT COUNT(*) FROM USER_DB_HEDGEHOG.ELECTRICITY_ANALYTICS.FCT_HOURLY_DEMAND;
-SELECT COUNT(*) FROM USER_DB_HEDGEHOG.ELECTRICITY_ANALYTICS.DIM_REGION;  -- Should be 6
+SELECT COUNT(*) FROM USER_DB_HEDGEHOG.ELECTRICITY_ANALYTICS.DIM_REGION;  -- Should be 4
 SELECT COUNT(*) FROM USER_DB_HEDGEHOG.ELECTRICITY_ANALYTICS.DIM_DATE;    -- Should be 1461
 
 -- ML forecasts (should be 28: 7 days × 4 regions)

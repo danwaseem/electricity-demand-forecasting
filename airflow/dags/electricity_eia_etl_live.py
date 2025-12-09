@@ -121,7 +121,7 @@ def ensure_schema_exists():
 # ========================
 # Task 1: Fetch and Stream to Temp Table
 # ========================
-def fetch_region_data(region, api_key, days_back=7):
+def fetch_region_data(region, api_key, days_back=1):
     """Fetch single region data (runs in parallel thread)"""
     base_url = "https://api.eia.gov/v2/electricity/rto/region-data/data"
     records = []
@@ -189,8 +189,17 @@ def fetch_and_load_to_temp(**context):
         logger.error(f"Failed to get EIA API key: {e}")
         raise
     
-    regions = ["US48", "CISO", "TEXA", "MISO", "NYISO", "PJM"]
+    # Get days_back from Airflow Variable (default: 1 for incremental)
+    # Set to 90 for initial historical load, then change back to 1
+    try:
+        days_back = int(Variable.get("eia_days_back", default_var=1))
+    except Exception:
+        days_back = 1  # Default to incremental (1 day)
+    
+    regions = ["US48", "CISO", "MISO", "PJM"]  # Only regions with available data
     execution_date = context.get('ds', 'manual')  # Get execution date for logging
+    
+    logger.info(f"Starting parallel fetch for execution_date: {execution_date}, days_back: {days_back}")
     
     logger.info(f"Starting parallel fetch for execution_date: {execution_date}")
     
@@ -224,7 +233,7 @@ def fetch_and_load_to_temp(**context):
         all_records = []
         try:
             with ThreadPoolExecutor(max_workers=6) as executor:
-                futures = {executor.submit(fetch_region_data, region, api_key): region for region in regions}
+                futures = {executor.submit(fetch_region_data, region, api_key, days_back): region for region in regions}
                 
                 for future in as_completed(futures):
                     region = futures[future]

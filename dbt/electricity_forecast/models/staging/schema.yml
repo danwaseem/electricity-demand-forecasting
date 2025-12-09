@@ -38,7 +38,7 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['US48', 'CISO', 'TEXA', 'MISO', 'NYISO', 'PJM']
+              values: ['US48', 'CISO', 'MISO', 'PJM']
 
   - name: stg_demand_by_region
     description: "Aggregated demand by region and hour"
