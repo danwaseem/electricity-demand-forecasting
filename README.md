@@ -11,13 +11,13 @@ Complete data engineering solution that:
 - Accumulates 200k+ historical records in Snowflake data warehouse
 - Transforms data using dbt into analytics-ready dimensional model
 - Generates 7-day forecasts using Snowflake ML FORECAST
-- Ready for Tableau visualization
+- Ready for Preset visualization
 
 ## 🏗️ Architecture
 
 ```
 EIA API → Airflow ETL → Snowflake (Raw) → dbt Transform → 
-Snowflake (Analytics) → Snowflake ML → Tableau Dashboard
+Snowflake (Analytics) → Snowflake ML → Preset Dashboard
 ```
 
 **Data Flow:**
@@ -31,7 +31,7 @@ Snowflake (Analytics) → Snowflake ML → Tableau Dashboard
 - **Data Warehouse**: Snowflake (3 schemas, 10+ tables)
 - **Transformation**: dbt 1.8.8 with dbt-snowflake 1.8.4
 - **ML**: Snowflake ML FORECAST (built-in time series forecasting)
-- **Visualization**: Tableau (ready to connect)
+- **Visualization**: Preset
 - **Language**: Python 3.12
 - **API**: EIA v2 (US Energy Information Administration)
 
@@ -162,7 +162,7 @@ sjsu-data226-electricity-forecast/
 - `DIM_REGION`: Region dimension (4 regions: US48, CISO, MISO, PJM)
 - `DIM_DATE`: Date dimension (4 years: 2023-2026)
 - `FCT_HOURLY_DEMAND`: Fact table (hourly demand by region)
-- `ANALYTICS_DEMAND_SUMMARY`: Pre-aggregated metrics for Tableau
+- `ANALYTICS_DEMAND_SUMMARY`: Pre-aggregated metrics for Preset
 
 ### ELECTRICITY_ML (ML Outputs)
 - `FORECAST_RESULTS`: 7-day forecasts (28 records: 7 days × 4 regions)
@@ -244,26 +244,6 @@ ORDER BY REGION, FORECAST_DATE
 LIMIT 10;
 ```
 
-## 📈 Tableau Connection
-
-**Connect to Snowflake:**
-1. Open Tableau Desktop
-2. Connect to Snowflake
-   - Server: `sfedu02-lvb17920.snowflakecomputing.com`
-   - Username: `HEDGEHOG`
-   - Password: (your password)
-   - Warehouse: `HEDGEHOG_QUERY_WH`
-   - Database: `USER_DB_HEDGEHOG`
-   - Schema: `ELECTRICITY_ANALYTICS` (for historical data)
-   - Schema: `ELECTRICITY_ML` (for forecasts)
-
-**Recommended Visualizations:**
-1. Regional demand trends (line chart)
-2. Forecast vs actual (dual-axis line chart)
-3. Peak hours by region (heatmap)
-4. Demand distribution (box plot)
-5. Model accuracy metrics (KPI cards)
-
 ## 🐛 Troubleshooting
 
 ### Airflow Not Starting
@@ -295,20 +275,6 @@ cd /opt/airflow/dbt/electricity_forecast
 dbt run --profiles-dir /opt/airflow/dbt
 ```
 
-## 📝 Project Requirements Checklist
-
-- [x] **ETL Pipeline**: Airflow DAG with parallel extraction, idempotent loads
-- [x] **Data Warehouse**: 3 Snowflake schemas, dimensional model
-- [x] **dbt Transformation**: Staging + marts, 33 tests, snapshots
-- [x] **ML Pipeline**: Snowflake ML FORECAST, 7-day predictions
-- [x] **Backfill Support**: All DAGs support historical runs
-- [x] **Idempotency**: All operations can re-run safely
-- [x] **Error Handling**: BEGIN/COMMIT/ROLLBACK, try/except/raise
-- [x] **Optimization**: Parallel processing, batch commits, incremental loads
-- [ ] **Tableau Dashboard**: In progress
-- [ ] **Final Report**: Template provided in `reports/`
-- [ ] **Presentation**: Outline provided in `reports/`
-
 
 ## 📚 References
 
@@ -322,8 +288,3 @@ dbt run --profiles-dir /opt/airflow/dbt
 For questions or issues:
 - Review Airflow logs in UI
 - Contact: [danish.waseem@sjsu.edu]
-
----
-**Last Updated**: December 6, 2025  
-**Status**: Production Ready ✅  
-**Pipeline**: ETL → dbt → ML → Tableau (ready)
